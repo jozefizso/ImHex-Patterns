@@ -152,7 +152,7 @@ struct MODULEDOCSTRING {
 	char DocString[Size];
 	u16 Reserved;
 	u32 SizeUnicode;
-	char16 DocString[SizeUnicode/2];
+	char16 DocStringUnicode[SizeUnicode/2];
 };
 
 struct MODULEOFFSET {
