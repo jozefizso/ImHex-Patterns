@@ -198,8 +198,15 @@ struct MODULECOOKIE {
 	u16 Cookie;
 };
 
+enum ModuleTypeId : u16 {
+    ProceduralModule = 0x0021,
+    Document = 0x0022,
+    Class = 0x0022,
+    Designer = 0x0022,
+};
+
 struct MODULETYPE {
-	u16 Id;
+	ModuleTypeId Id;
 	u32 Reserved;
 };
 
@@ -265,8 +272,9 @@ struct PROJECTINFORMATION {
 struct DirStream {
 	PROJECTINFORMATION InformationRecord;
 	PROJECTREFERENCES ReferencesRecord;
-	//char reserved[0xB7];
 	PROJECTMODULES ModulesRecord;
+	u16 Terminator;  // 0x0010
+	u32 Reserved;    // 0x00000000
 };
 
 DirStream dir @ 0x00;
