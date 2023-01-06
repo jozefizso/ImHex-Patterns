@@ -131,13 +131,16 @@ struct REFERENCE {
 	    REFERENCEREGISTERED ReferenceRegisteredRecord;
 	}
 	if (std::mem::read_unsigned($, 1) == ReferenceRecordType::Project) {
-	    REFERENCEREGISTERED ReferenceProjectRecord;
+	    REFERENCEPROJECT ReferenceProjectRecord;
+	}
+
+	if (std::mem::read_unsigned($, 2) == 0x000F) {
+	    break;
 	}
 };
 
 struct PROJECTREFERENCES {
-	REFERENCE References[2];
-	//u16 Terminator;
+	REFERENCE References[100];
 };
 
 
