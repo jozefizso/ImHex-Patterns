@@ -100,7 +100,7 @@ enum ReferenceRecordType : u16 {
 };
 
 struct REFERENCEREGISTERED {
-	u16 Id;
+    ReferenceRecordType Id;
 	u32 Size;
 	u32 SizeOfLibid;
 	char Libid[SizeOfLibid];
@@ -108,9 +108,31 @@ struct REFERENCEREGISTERED {
 	u16 Reserved2;
 };
 
+struct REFERENCEPROJECT {
+    ReferenceRecordType Id;
+	u32 Size;
+	u32 SizeOfLibidAbsolute;
+	char LibidAbsolute[SizeOfLibidAbsolute];
+	u32 SizeOfLibidRelative;
+	char LibidRelative[SizeOfLibidRelative];
+	u32 MajorVersion;
+	u16 MinorVersion;
+};
+
 struct REFERENCE {
 	REFERENCENAME NameRecord;
-	REFERENCEREGISTERED RegisteredLib;
+	if (std::mem::read_unsigned($, 1) == ReferenceRecordType::Control) {
+	    REFERENCEREGISTERED ReferenceControlRecord;
+	}
+	if (std::mem::read_unsigned($, 1) == ReferenceRecordType::Original) {
+	    REFERENCEREGISTERED ReferenceOriginalRecord;
+	}
+	if (std::mem::read_unsigned($, 1) == ReferenceRecordType::Registered) {
+	    REFERENCEREGISTERED ReferenceRegisteredRecord;
+	}
+	if (std::mem::read_unsigned($, 1) == ReferenceRecordType::Project) {
+	    REFERENCEREGISTERED ReferenceProjectRecord;
+	}
 };
 
 struct PROJECTREFERENCES {
